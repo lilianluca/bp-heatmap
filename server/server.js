@@ -24,6 +24,8 @@ db.on("open", () => {
   });
 });
 
+
+
 const port = 3000;
 const coordinatesRouter = require("./routes/coordinates");
 
