@@ -5,11 +5,7 @@ const app = express();
 
 const cors = require("cors");
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+app.use(cors());
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
@@ -23,8 +19,6 @@ db.on("open", () => {
     console.log(`App listening on port ${port}`);
   });
 });
-
-
 
 const port = 3000;
 const coordinatesRouter = require("./routes/coordinates");
