@@ -1,10 +1,10 @@
-require("dotenv").config();
-const { fetch } = require("undici");
-const express = require("express");
+require('dotenv').config();
+const { fetch } = require('undici');
+const express = require('express');
 const router = express.Router();
-const Coordinates = require("../models/coordinates");
+const Coordinates = require('../models/coordinates');
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const coordinates = await Coordinates.find();
     res.json(coordinates);
@@ -13,16 +13,32 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const coordinates = await Coordinates.create(req.body);
+
     res.status(201).json(coordinates);
   } catch (error) {
     res.status(500).json({ message: error });
   }
 });
 
-router.get("/matched", async (req, res) => {
+router.get('/add', async (req, res) => {
+  try {
+    // const schemaKeys = Object.keys(Coordinates.schema.paths);
+    const newCoordinates = req.query;
+    // const newCoordinatesKeys = Object.keys(newCoordinates);
+    // const missingKeys = getMissingKeys(newCoordinatesKeys, schemaKeys);
+    // missingKeys.forEach((key) => Coordinates.schema.add({ key: String }));
+    const coordinates = await Coordinates.create(newCoordinates);
+    console.log(coordinates);
+    res.status(201).json(coordinates);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+router.get('/matched', async (req, res) => {
   const API_KEY = process.env.GEOAPIFY_API_KEY;
   const url = `https://api.geoapify.com/v1/mapmatching?apiKey=${API_KEY}`;
   try {
@@ -41,13 +57,13 @@ router.get("/matched", async (req, res) => {
 
 const fetchMatchData = async (url, waypoints) => {
   const body = {
-    mode: "drive",
+    mode: 'drive',
     waypoints: waypoints,
   };
 
   const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
   const data = await response.json();
@@ -55,3 +71,8 @@ const fetchMatchData = async (url, waypoints) => {
 };
 
 module.exports = router;
+
+const getMissingKeys = (arr1, arr2) => {
+  let intersection = arr1.filter((x) => !arr2.includes(x));
+  return intersection;
+};

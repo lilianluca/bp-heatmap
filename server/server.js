@@ -5,11 +5,13 @@ const app = express();
 
 const cors = require("cors");
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//   })
+// );
+
+app.use(cors());
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
@@ -24,11 +26,9 @@ db.on("open", () => {
   });
 });
 
-
-
 const port = 3000;
 const coordinatesRouter = require("./routes/coordinates");
 
 app.use(express.json());
 
-app.use("/coordinates", coordinatesRouter);
+app.use("/api/coordinates", coordinatesRouter);
