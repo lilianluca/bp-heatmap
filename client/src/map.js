@@ -25,6 +25,7 @@ const setupMap = () => {
   });
 
   if (heatData) {
+    console.log(heatData);
     setupHeatLayer(map, heatData, 10);
   }
 
