@@ -1,16 +1,16 @@
-import setupHeatLayer from "./heatLayer";
+import setupHeatLayer from './heatLayer';
 
 const setupMap = () => {
-  const map = L.map("map").setView([50.77242005174584, 15.072913082867514], 17);
+  const map = L.map('map').setView([50.77242005174584, 15.072913082867514], 17);
 
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
   const heatData = [];
   const matchedData = fetchData(
-    "http://localhost:3000/api/coordinates/matched"
+    'http://localhost:3000/api/coordinates/matched'
   ).then((data) => {
     const { waypoints } = data.features[0].properties;
     waypoints.forEach((waypoint) => {
@@ -30,13 +30,13 @@ const setupMap = () => {
   }
 
   // Original data
-  const originalData = fetchData("http://localhost:3000/api/coordinates").then(
-    (data) => {
-      data.forEach((coords) => {
-        L.marker([coords.lat, coords.lon]).addTo(map);
-      });
-    }
-  );
+  // const originalData = fetchData("http://localhost:3000/api/coordinates").then(
+  //   (data) => {
+  //     data.forEach((coords) => {
+  //       L.marker([coords.lat, coords.lon]).addTo(map);
+  //     });
+  //   }
+  // );
 };
 
 const fetchData = async (url) => {

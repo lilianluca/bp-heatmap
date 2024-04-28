@@ -3,8 +3,10 @@ const { fetch } = require('undici');
 const express = require('express');
 const router = express.Router();
 const Coordinates = require('../models/coordinates');
+const usersModule = require('./users');
+const { authenticateToken } = usersModule;
 
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const coordinates = await Coordinates.find();
     res.json(coordinates);
