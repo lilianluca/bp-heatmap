@@ -15,7 +15,7 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const coordinates = await Coordinates.create(req.body);
 
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/add', async (req, res) => {
+router.get('/add', authenticateToken, async (req, res) => {
   try {
     // const schemaKeys = Object.keys(Coordinates.schema.paths);
     const newCoordinates = req.query;
@@ -40,7 +40,7 @@ router.get('/add', async (req, res) => {
   }
 });
 
-router.get('/matched', async (req, res) => {
+router.get('/matched', authenticateToken, async (req, res) => {
   const API_KEY = process.env.GEOAPIFY_API_KEY;
   const url = `https://api.geoapify.com/v1/mapmatching?apiKey=${API_KEY}`;
   try {
@@ -73,8 +73,3 @@ const fetchMatchData = async (url, waypoints) => {
 };
 
 module.exports = router;
-
-const getMissingKeys = (arr1, arr2) => {
-  let intersection = arr1.filter((x) => !arr2.includes(x));
-  return intersection;
-};
