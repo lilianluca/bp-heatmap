@@ -10,7 +10,7 @@ const setupMap = () => {
 
   const heatData = [];
   const matchedData = fetchData(
-    'http://localhost:3000/api/coordinates/matched'
+    '/api/coordinates/matched'
   ).then((data) => {
     const { waypoints } = data.features[0].properties;
     waypoints.forEach((waypoint) => {
