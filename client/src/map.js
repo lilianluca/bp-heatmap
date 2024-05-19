@@ -9,9 +9,7 @@ const setupMap = () => {
   }).addTo(map);
 
   const heatData = [];
-  const matchedData = fetchData(
-    '/api/coordinates/matched'
-  ).then((data) => {
+  const matchedData = fetchData('/api/coordinates/matched').then((data) => {
     const { waypoints } = data.features[0].properties;
     waypoints.forEach((waypoint) => {
       const { location } = waypoint;
@@ -28,20 +26,13 @@ const setupMap = () => {
     console.log(heatData);
     setupHeatLayer(map, heatData, 10);
   }
-
-  // Original data
-  // const originalData = fetchData("http://localhost:3000/api/coordinates").then(
-  //   (data) => {
-  //     data.forEach((coords) => {
-  //       L.marker([coords.lat, coords.lon]).addTo(map);
-  //     });
-  //   }
-  // );
 };
 
 const fetchData = async (url) => {
   const response = await fetch(url);
+  console.log(response);
   const data = await response.json();
+
   return data;
 };
 

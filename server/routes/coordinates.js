@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.post('/', authenticateToken, async (req, res) => {
   try {
     const coordinates = await Coordinates.create(req.body);
-
+    console.log(coordinates);
     res.status(201).json(coordinates);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -27,13 +27,8 @@ router.post('/', authenticateToken, async (req, res) => {
 
 router.get('/add', authenticateToken, async (req, res) => {
   try {
-    // const schemaKeys = Object.keys(Coordinates.schema.paths);
     const newCoordinates = req.query;
-    // const newCoordinatesKeys = Object.keys(newCoordinates);
-    // const missingKeys = getMissingKeys(newCoordinatesKeys, schemaKeys);
-    // missingKeys.forEach((key) => Coordinates.schema.add({ key: String }));
     const coordinates = await Coordinates.create(newCoordinates);
-    console.log(coordinates);
     res.status(201).json(coordinates);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -52,6 +47,7 @@ router.get('/matched', async (req, res) => {
     });
     const matchedWaypoints = await fetchMatchData(url, waypoints);
     res.status(200).json(matchedWaypoints);
+    console.log(matchedWaypoints);
   } catch (error) {
     res.status(500).json({ message: error });
   }
